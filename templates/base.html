@@ -1,0 +1,36 @@
+{% if user.is_authenticated %}
+    <span>your name is {{ user.username }},</span>
+    <a href="{% url 'logout' %}">Выйти</a>
+
+    <form method="post" enctype="multipart/form-data" action="{% url 'image' %}">
+        {% csrf_token %}
+        <input type="file" name="image">
+        <button type="submit">Загрузка</button>
+    </form>
+
+    {% for image in images %}
+        <div style="display:inline-block;">
+            <img src="{{image.image}}" alt="" style="width:100px;height:100px;">
+            <br>
+            <a href="#" class="delete" onclick="delete_image('{{image.id}}')">Удалить</a>
+        </div>
+    {% endfor %}
+
+<script>
+    function delete_image(pk)
+    {
+        fetch('{% url 'image' %}' + pk, {
+            method: 'DELETE',
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+        })
+    }
+
+</script>
+
+{% else %}
+    <a href="{% url 'login'%}">Login</a>
+|
+    <a href="{% url 'signup' %}">Registration</a>
+{% endif %}
+
+
