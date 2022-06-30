@@ -11,11 +11,12 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
+RUN python manage.py flush --no-input
 RUN python manage.py makemigrations
 RUN python manage.py migrate
+RUN python manage.py createsuperuser --noinput
 
 EXPOSE 8000
 
-CMD ["python", "manage.py", "createsuperuser", "--noinput"]
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 
