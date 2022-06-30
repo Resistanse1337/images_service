@@ -1,6 +1,5 @@
 .gitignore
 .env
 venv
-migrations
 __pycache__
 .idea
